@@ -47,7 +47,7 @@ export const  MediaCard = ({
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Go to GSC Page
+          <a href={url}> Go to GSC Page</a>
         </Button>
       </CardActions>
     </Card>
