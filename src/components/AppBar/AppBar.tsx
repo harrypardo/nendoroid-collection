@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {KeyboardEvent} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -65,11 +65,18 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
     title: string;
+    onChange: (text: string ) => void;
 }
 
 
-export const SearchAppBar = ({title}: Props) => {
+export const SearchAppBar = ({title , onChange}: Props) => {
   const classes = useStyles();
+
+
+  const handleOnChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (event) => {
+      if(onChange && typeof onChange === 'function') onChange(event.target.value);
+  }
+
 
   return (
     <div className={classes.root}>
@@ -97,7 +104,7 @@ export const SearchAppBar = ({title}: Props) => {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-              
+              onChange={handleOnChange}
             />
           </div>
         </Toolbar>

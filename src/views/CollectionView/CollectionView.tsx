@@ -1,13 +1,55 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, {FunctionComponent, useState } from "react";
 import { MediaCard } from "../../components/Card";
 import { StyledContainer } from "./styles";
 import {SearchAppBar} from '../../components/AppBar';
+import { ICollectionViewProps } from "./types";
+import { isNumeric } from "../../helpers/isNumeric";
 
-export const CollectionView = () => {
+
+export const CollectionView: FunctionComponent<ICollectionViewProps> = ({
+  figureCards,
+}) => {
+
+  const [filteredCards, setFilteredCards ] = useState(figureCards);
+
+
+  const renderCards = () => {
+      return filteredCards.map((card) => {
+        const { name, number, url} = card;
+        return(
+        <Grid item key={`index-${name}-${number}`}>
+        <MediaCard name ={name}
+          number={number} url={url} />
+        </Grid>);
+      });
+  }
+
+  const handleSearchOnChange = (text: string) => {
+      if(text.length < 1) {
+        setFilteredCards(figureCards); 
+        return;
+      } 
+       if(isNumeric(text)) {
+        const num = parseInt(text);
+        
+        setFilteredCards(
+          figureCards.filter((card) =>  { 
+            console.log(`${parseInt(card.number)} ${num} ${text}`  ); 
+            return  parseInt(card.number) === num })
+        );
+        return;
+      }
+      const textLower = text.toLowerCase();
+      setFilteredCards(
+        figureCards.filter((card) => card.name.toLowerCase().includes(textLower))
+      );
+  } 
+
+
   return (
     <StyledContainer maxWidth={false} >
-      <SearchAppBar title={"My Collection"} />
+      <SearchAppBar title={"My Collection"} onChange={handleSearchOnChange}/>
       <br />
       <Grid
         container
@@ -16,14 +58,9 @@ export const CollectionView = () => {
         alignItems="center"
         spacing={3}
       >
-        <Grid item>
-          <MediaCard name ={ "Nendoroid Giorno"}
-                             number={ "10"} url={"https://www.goodsmile.info/en/product/8432/Nendoroid+Giorno+Giovanna.html"} />
-        </Grid>
-
+        {renderCards()}
       </Grid>
 
-      
     </StyledContainer>
   );
 };
