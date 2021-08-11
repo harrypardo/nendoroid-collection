@@ -38,10 +38,10 @@ export const  MediaCard = ({
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-           {name}
+           {number}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                Nendoroid number {number}
+                {name}
           </Typography>
         </CardContent>
       </CardActionArea>

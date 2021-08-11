@@ -35,7 +35,6 @@ export const CollectionView: FunctionComponent<ICollectionViewProps> = ({
         
         setFilteredCards(
           figureCards.filter((card) =>  { 
-            console.log(`${parseInt(card.number)} ${num} ${text}`  ); 
             return  parseInt(card.number) === num })
         );
         return;
